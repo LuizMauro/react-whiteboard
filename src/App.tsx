@@ -2,7 +2,6 @@ import { useCallback } from "react";
 import ReactFlow, {
   Background,
   Controls,
-  Node,
   ConnectionMode,
   useEdgesState,
   Connection,
@@ -25,35 +24,14 @@ const EDGE_TYPES = {
   default: DefaultEdge,
 };
 
-// const INITIAL_NODES = [
-//   {
-//     id: crypto.randomUUID(),
-//     type: "square",
-//     position: {
-//       x: 200,
-//       y: 400,
-//     },
-//     data: {},
-//   },
-//   {
-//     id: crypto.randomUUID(),
-//     type: "square",
-//     position: {
-//       x: 1000,
-//       y: 400,
-//     },
-//     data: {
-//       onChangeText: onChangeText,
-//     },
-//   },
-// ] satisfies Node[];
-
 function App() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
 
   const onConnect = useCallback((connection: Connection) => {
-    return setEdges((edges) => addEdge(connection, edges));
+    return setEdges((edges) =>
+      addEdge({ ...connection, data: { onChangeLabel: onChangeLabel } }, edges)
+    );
   }, []);
 
   const onChangeText = useCallback((id: string, text: string) => {
@@ -65,6 +43,18 @@ function App() {
       }
 
       return nodesAux;
+    });
+  }, []);
+
+  const onChangeLabel = useCallback((id: string, text: string) => {
+    setEdges((edges) => {
+      let edgesAux = edges;
+      const edgeFind = edgesAux.findIndex((n) => n.id === id);
+      if (edgeFind >= 0) {
+        edgesAux[edgeFind].data.label = text;
+      }
+
+      return edgesAux;
     });
   }, []);
 
