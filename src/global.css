@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
+
+#download-image .react-flow {
+  background: #fff;
+}
+
+#download-image .download-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  border: 1px solid #eee;
+  background: #ebf8ff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 700;
+  cursor: pointer;
+}

@@ -4,12 +4,7 @@ import Dialog from "../DialogLabelEdge";
 
 import "./index.css";
 
-const foreignObjectSize = 100;
-
-const onEdgeClick = (evt: any, id: any) => {
-  evt.stopPropagation();
-  alert(`remove ${id}`);
-};
+const foreignObjectSize = 50;
 
 export default function CustomEdge({
   id,
@@ -59,7 +54,7 @@ export default function CustomEdge({
         requiredExtensions="http://www.w3.org/1999/xhtml"
       >
         {data?.label && !selected && (
-          <p className="text-2xl font-bold text-black">{data.label}</p>
+          <p className="text-sm  text-black">{data.label}</p>
         )}
 
         {selected && (

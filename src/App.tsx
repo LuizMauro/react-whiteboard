@@ -13,6 +13,7 @@ import * as Toolbar from "@radix-ui/react-toolbar";
 
 import Square from "./components/nodes/Square";
 import DefaultEdge from "./components/edges/DefaultEdge";
+import DownloadButton from "./components/ButtonDownload";
 
 import "reactflow/dist/style.css";
 
@@ -76,7 +77,8 @@ function App() {
   };
 
   return (
-    <div className="w-screen h-screen">
+    <div id="download-image" className="w-screen h-screen">
+      <DownloadButton />
       <ReactFlow
         connectionMode={ConnectionMode.Loose}
         nodeTypes={NODE_TYPES}
@@ -86,6 +88,7 @@ function App() {
         edges={edges}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        attributionPosition="top-right"
         defaultEdgeOptions={{
           type: "default",
         }}
