@@ -25,33 +25,47 @@ const EDGE_TYPES = {
   default: DefaultEdge,
 };
 
-const INITIAL_NODES = [
-  {
-    id: crypto.randomUUID(),
-    type: "square",
-    position: {
-      x: 200,
-      y: 400,
-    },
-    data: {},
-  },
-  {
-    id: crypto.randomUUID(),
-    type: "square",
-    position: {
-      x: 1000,
-      y: 400,
-    },
-    data: {},
-  },
-] satisfies Node[];
+// const INITIAL_NODES = [
+//   {
+//     id: crypto.randomUUID(),
+//     type: "square",
+//     position: {
+//       x: 200,
+//       y: 400,
+//     },
+//     data: {},
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     type: "square",
+//     position: {
+//       x: 1000,
+//       y: 400,
+//     },
+//     data: {
+//       onChangeText: onChangeText,
+//     },
+//   },
+// ] satisfies Node[];
 
 function App() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [nodes, setNodes, onNodesChange] = useNodesState(INITIAL_NODES);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
 
   const onConnect = useCallback((connection: Connection) => {
     return setEdges((edges) => addEdge(connection, edges));
+  }, []);
+
+  const onChangeText = useCallback((id: string, text: string) => {
+    setNodes((nodes) => {
+      let nodesAux = nodes;
+      const nodeFind = nodesAux.findIndex((n) => n.id === id);
+      if (nodeFind >= 0) {
+        nodesAux[nodeFind].data.label = text;
+      }
+
+      return nodesAux;
+    });
   }, []);
 
   const addSquareNode = () => {
@@ -64,7 +78,9 @@ function App() {
           x: 750,
           y: 350,
         },
-        data: {},
+        data: {
+          onChangeText: onChangeText,
+        },
       },
     ]);
   };

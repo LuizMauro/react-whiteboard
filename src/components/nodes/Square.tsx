@@ -4,9 +4,30 @@ import { NodeResizer } from "@reactflow/node-resizer";
 
 import "@reactflow/node-resizer/dist/style.css";
 
-const Square: React.FC<NodeProps> = ({ selected }) => {
+const Square: React.FC<NodeProps> = ({ selected, id, data }) => {
+  const [label, setLabel] = React.useState(data.label ?? "");
+
+  const onChangeText = (evt: any) => {
+    if (data?.onChangeText) {
+      setLabel(evt.target.value);
+      data.onChangeText(id, evt.target.value);
+    }
+  };
+
   return (
-    <div className="bg-violet-500 rounded h-full w-full min-w-[200px] min-h-[200px]">
+    <div className="bg-violet-500 rounded h-full w-full min-w-[200px] min-h-[200px] flex flex-1 justify-center items-center">
+      {data?.label && !selected && (
+        <p className="text-2xl font-bold text-white">{data.label}</p>
+      )}
+      {selected && (
+        <input
+          className="h-10 bg-transparent text-2xl font-bold text-white text-center border-none max-w-[200px] max-h-[200px]"
+          type="text"
+          value={label}
+          onChange={onChangeText}
+        />
+      )}
+
       <NodeResizer
         minWidth={200}
         minHeight={200}
@@ -14,6 +35,7 @@ const Square: React.FC<NodeProps> = ({ selected }) => {
         lineClassName="border-blue-400"
         handleClassName="h-3 w-3 bg-white border-1 rounded border-blue-400"
       />
+
       <Handle
         id="bottom"
         type="source"
